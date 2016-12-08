@@ -9,6 +9,8 @@ import { ShoppingListService } from './shopping-list.service';
 export class ShoppingListComponent implements OnInit {
 
   items: Ingredient[] = [];
+
+  selectedItem: Ingredient = null;
   
   constructor(private slService: ShoppingListService) { }
 
@@ -16,4 +18,10 @@ export class ShoppingListComponent implements OnInit {
     this.items = this.slService.getItems();
   }
 
+  onSelectItem(item: Ingredient) {
+    this.selectedItem = item;
+  }
+  onCleared(){
+    this.selectedItem = null;
+  }
 } 
