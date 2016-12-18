@@ -51,12 +51,23 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     this.navigateBack();
   }
 
-  onSubmit()
-  {
+  onAddItem(name: string, amount: string ){
+    (<FormArray>this.recipeForm.controls['ingredients']).push(
+      new FormGroup({
+         name: new FormControl(name, Validators.required), 
+         amount: new FormControl(amount, 
+          [Validators.required, Validators.pattern("\\d+")])
+    }))
+  }
+
+  onRemoveItem(index: number){
+    (<FormArray>this.recipeForm.controls['ingredients']).removeAt(index);
+  }
+
+  onSubmit(){
     const newRecipe = this.recipeForm.value;
     
-    if(this.isNew)
-    {
+    if(this.isNew) {
       this.recipeService.addRecipe(newRecipe);
     } else {
       this.recipeService.editRecipe(this.recipe, newRecipe);
